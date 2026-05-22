@@ -1,0 +1,21 @@
+{
+  "name": "node-aws-server",
+  "version": "1.0.0",
+  "description": "Simple Node.js server for EC2 deployment",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "docker:build": "docker build -t node-aws-server .",
+    "docker:run": "docker run -p 3000:3000 node-aws-server"
+  },
+  "keywords": ["nodejs", "docker", "ec2", "aws"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
