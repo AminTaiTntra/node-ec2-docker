@@ -92,12 +92,8 @@ if ! command -v curl &> /dev/null; then
     eval "$INSTALL_CMD curl"
 fi
 
-# Create project directory if it doesn't exist
-PROJECT_DIR="$HOME/node-aws-server"
-if [ ! -d "$PROJECT_DIR" ]; then
-    echo -e "${YELLOW}Creating project directory at $PROJECT_DIR...${NC}"
-    mkdir -p "$PROJECT_DIR"
-fi
+# Set project directory dynamically to the directory containing the script
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Navigate to project directory
 cd "$PROJECT_DIR"

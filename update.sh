@@ -13,13 +13,8 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
-PROJECT_DIR="/home/ec2-user/node-aws-server"
-
-if [ ! -d "$PROJECT_DIR" ]; then
-    echo -e "${RED}✗ Project directory not found at $PROJECT_DIR${NC}"
-    echo "Run deploy.sh first to set up the project"
-    exit 1
-fi
+# Set project directory dynamically to the directory containing the script
+PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 cd "$PROJECT_DIR"
 
