@@ -53,7 +53,7 @@ cd node-aws-server
 bash deploy.sh
 
 # The script will:
-# ✓ Install Node.js 18
+# ✓ Install Node.js 20
 # ✓ Install PM2
 # ✓ Install dependencies
 # ✓ Start the app

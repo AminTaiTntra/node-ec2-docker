@@ -14,7 +14,7 @@ A simple Node.js Express server with Docker and Docker Compose setup for AWS EC2
 
 - Docker installed
 - Docker Compose installed
-- Node.js 18+ (for local development)
+- Node.js 20+ (for local development)
 
 ## Local Development
 
@@ -70,7 +70,7 @@ See [GITHUB_EC2_SETUP.md](./GITHUB_EC2_SETUP.md) for complete instructions inclu
 
 ### Prerequisites on EC2
 The deployment script installs everything automatically:
-- Node.js 18
+- Node.js 20
 - PM2 globally
 - Project dependencies
 - Auto-restart service

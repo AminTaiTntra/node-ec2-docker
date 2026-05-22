@@ -44,11 +44,11 @@ if ! command -v node &> /dev/null; then
     
     if [ "$OS_TYPE" = "debian" ]; then
         # Ubuntu/Debian
-        curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
         sudo apt-get install -y nodejs
     else
         # Amazon Linux, CentOS, RHEL
-        curl -sL https://rpm.nodesource.com/setup_18.x | sudo bash -
+        curl -sL https://rpm.nodesource.com/setup_20.x | sudo bash -
         sudo yum install -y nodejs
     fi
 fi

@@ -90,7 +90,7 @@ bash deploy.sh
 The script will automatically:
 - ✓ Detect OS (Ubuntu/Debian or Amazon Linux/CentOS/RHEL)
 - ✓ Use correct package manager (apt or yum)
-- ✓ Install Node.js 18
+- ✓ Install Node.js 20
 - ✓ Install PM2 globally
 - ✓ Install project dependencies
 - ✓ Create .env file
