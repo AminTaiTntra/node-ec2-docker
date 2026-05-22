@@ -17,6 +17,19 @@ else
 fi
 
 echo ""
+echo "Memory & Swap Information:"
+if [ -f /proc/meminfo ]; then
+    total_ram_kb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+    free_ram_kb=$(grep MemFree /proc/meminfo | awk '{print $2}')
+    total_swap_kb=$(grep SwapTotal /proc/meminfo | awk '{print $2}')
+    free_swap_kb=$(grep SwapFree /proc/meminfo | awk '{print $2}')
+    echo "  Total RAM: $((total_ram_kb / 1024)) MB (Free: $((free_ram_kb / 1024)) MB)"
+    echo "  Total Swap: $((total_swap_kb / 1024)) MB (Free: $((free_swap_kb / 1024)) MB)"
+else
+    free -h || echo "  Unable to retrieve memory info"
+fi
+
+echo ""
 echo "Package Manager:"
 if command -v apt-get &> /dev/null; then
     echo "  ✓ apt-get (Debian/Ubuntu)"

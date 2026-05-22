@@ -34,6 +34,28 @@ fi
 
 echo -e "${GREEN}✓ Detected OS: $OS_TYPE (using $PKG_MANAGER)${NC}"
 
+# Check if Swap is enabled, and if RAM is low
+if [ -f /proc/meminfo ]; then
+    total_ram_kb=$(grep MemTotal /proc/meminfo | awk '{print $2}')
+    total_swap_kb=$(grep SwapTotal /proc/meminfo | awk '{print $2}')
+    
+    # If RAM is less than 1.5GB (1572864 KB) and Swap is less than 512MB (524288 KB)
+    if [ "$total_ram_kb" -lt 1572864 ] && [ "$total_swap_kb" -lt 524288 ]; then
+        echo -e "${YELLOW}Low memory detected (RAM: $((total_ram_kb / 1024))MB, Swap: $((total_swap_kb / 1024))MB).${NC}"
+        if [ -f /swapfile ]; then
+            echo -e "${YELLOW}Existing swapfile found. Activating...${NC}"
+            sudo swapon /swapfile || true
+        else
+            echo -e "${YELLOW}Creating a 1GB swap file to prevent OOM killer during Node.js installation...${NC}"
+            sudo fallocate -l 1G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=1024
+            sudo chmod 600 /swapfile
+            sudo mkswap /swapfile
+            sudo swapon /swapfile
+            echo -e "${GREEN}✓ Swap file created and activated.${NC}"
+        fi
+    fi
+fi
+
 # Update system
 echo -e "${YELLOW}Updating system packages...${NC}"
 eval $UPDATE_CMD
