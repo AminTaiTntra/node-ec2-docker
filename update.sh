@@ -5,6 +5,15 @@
 
 set -e
 
+# ==============================================================================
+# CONFIGURATION
+# ==============================================================================
+PORT="3000"                        # Application port for health checks
+HEALTH_PATH="/health"              # Health check endpoint path
+PM2_CONFIG="ecosystem.config.js"   # PM2 configuration file name
+PM2_ENV="production"               # PM2 environment name (production/development)
+# ==============================================================================
+
 echo "=== Updating Application from GitHub ==="
 
 # Colors for output
@@ -28,13 +37,13 @@ echo -e "${YELLOW}Installing dependencies...${NC}"
 npm ci --omit=dev
 
 echo -e "${YELLOW}Restarting application...${NC}"
-pm2 restart all
+pm2 reload ${PM2_CONFIG} --env ${PM2_ENV}
 
 # Wait for service to be ready
 sleep 2
 
 # Health check
-if curl -f http://localhost:3000/health > /dev/null 2>&1; then
+if curl -f http://localhost:${PORT}${HEALTH_PATH} > /dev/null 2>&1; then
     echo -e "${GREEN}✓ Update successful${NC}"
     echo -e "${GREEN}✓ Application is running${NC}"
     pm2 status

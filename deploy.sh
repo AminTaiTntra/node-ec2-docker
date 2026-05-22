@@ -6,6 +6,16 @@
 
 set -e
 
+# ==============================================================================
+# CONFIGURATION
+# ==============================================================================
+NODE_VERSION="20"                  # Target Node.js major version (e.g., 20, 22)
+PORT="3000"                        # Application port for health checks
+HEALTH_PATH="/health"              # Health check endpoint path
+PM2_CONFIG="ecosystem.config.js"   # PM2 configuration file name
+PM2_ENV="production"               # PM2 environment name (production/development)
+# ==============================================================================
+
 echo "=== Node.js Server EC2 Deployment with PM2 ==="
 
 # Colors for output
@@ -66,11 +76,11 @@ if ! command -v node &> /dev/null; then
     
     if [ "$OS_TYPE" = "debian" ]; then
         # Ubuntu/Debian
-        curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+        curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo -E bash -
         sudo apt-get install -y nodejs
     else
         # Amazon Linux, CentOS, RHEL
-        curl -sL https://rpm.nodesource.com/setup_20.x | sudo bash -
+        curl -sL https://rpm.nodesource.com/setup_${NODE_VERSION}.x | sudo bash -
         sudo yum install -y nodejs
     fi
 fi
@@ -114,7 +124,7 @@ mkdir -p logs
 
 # Start/restart application with PM2
 echo -e "${YELLOW}Starting application with PM2...${NC}"
-pm2 start ecosystem.config.js --env production
+pm2 start ${PM2_CONFIG} --env ${PM2_ENV}
 pm2 save
 
 # Wait for service to be ready
@@ -122,9 +132,9 @@ echo -e "${YELLOW}Waiting for service to be ready...${NC}"
 sleep 3
 
 # Health check
-if curl -f http://localhost:3000/health > /dev/null 2>&1; then
+if curl -f http://localhost:${PORT}${HEALTH_PATH} > /dev/null 2>&1; then
     echo -e "${GREEN}✓ Service is healthy${NC}"
-    echo -e "${GREEN}✓ Application is running at http://localhost:3000${NC}"
+    echo -e "${GREEN}✓ Application is running at http://localhost:${PORT}${HEALTH_PATH}${NC}"
 else
     echo -e "${RED}✗ Service health check failed${NC}"
     pm2 logs
