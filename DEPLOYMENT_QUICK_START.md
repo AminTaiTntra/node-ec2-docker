@@ -35,6 +35,9 @@ git push -u origin main
 ssh -i /path/to/your-key.pem ec2-user@YOUR_EC2_PUBLIC_IP
 
 # You should now see: [ec2-user@ip-xxx-xxx-xxx-xxx ~]$
+
+# Optional: Check your system setup
+bash check-system.sh
 ```
 
 ## Phase 3: Clone & Deploy on EC2
@@ -112,12 +115,19 @@ bash update.sh
 
 ## Troubleshooting
 
+### "yum: command not found" or Package Manager Issues
+- Run: `bash check-system.sh` to see your OS
+- The `deploy.sh` script automatically detects apt vs yum
+- Works on: Ubuntu, Debian, Amazon Linux, CentOS, RHEL
+
 ### "Connection refused"
 - Check security group allows port 3000
 - Verify application is running: `pm2 status`
 
 ### "git: command not found"
 - Already installed by deploy script
+- Manual install (Ubuntu): `sudo apt-get install -y git`
+- Manual install (Amazon Linux): `sudo yum install -y git`
 
 ### "pm2: command not found"
 - Re-run: `sudo npm install -g pm2`

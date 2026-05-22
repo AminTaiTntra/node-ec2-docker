@@ -87,13 +87,17 @@ cd node-aws-server
 bash deploy.sh
 ```
 
-The script will:
+The script will automatically:
+- ✓ Detect OS (Ubuntu/Debian or Amazon Linux/CentOS/RHEL)
+- ✓ Use correct package manager (apt or yum)
 - ✓ Install Node.js 18
 - ✓ Install PM2 globally
 - ✓ Install project dependencies
 - ✓ Create .env file
 - ✓ Start the application
 - ✓ Verify health check
+
+**Note:** If you see "yum: command not found", don't worry - the script automatically detects and uses `apt-get` for Ubuntu/Debian systems.
 
 ## Step 7: Verify Deployment
 
